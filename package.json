@@ -1,0 +1,17 @@
+{
+  "name": "jdl-generator",
+  "version": "1.0.0",
+  "description": "JHipster jdl generator",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "jhipster"
+  ],
+  "author": "@pmverma",
+  "license": "ISC",
+  "dependencies": {
+    "jhipster-core": "^7.0.0"
+  }
+}
