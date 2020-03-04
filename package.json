@@ -12,6 +12,7 @@
   "author": "@pmverma",
   "license": "ISC",
   "dependencies": {
-    "jhipster-core": "^7.1.1"
+    "jhipster-core": "^7.1.1",
+    "lodash": "4.17.15"
   }
 }
