@@ -2,7 +2,7 @@ const _ = require('lodash');
 
 const { getAllOptionsAsMap } = require('./lib/application_options');
 const { getAuthenticationTypesFor } = require('./lib/authentication_type_generator');
-const { getDatabaseTypesFor, getDevDatabaseTypeFor } = require('./lib/database_type_generator');
+const { getDatabaseTypesFor, getProdDatabaseTypeFor, getDevDatabaseTypeFor } = require('./lib/database_type_generator');
 const { createJDLApplication } = require('jhipster-core/lib/core/jdl_application_factory');
 const { OptionNames, OptionValues } = require('jhipster-core/lib/core/jhipster/application_options');
 const JDLApplicationConfiguration = require('jhipster-core/lib/core/jdl_application_configuration');
@@ -42,30 +42,41 @@ let jdlApps = new Set();
 jhAppTypes.forEach(jhAppType => {
     let jdlApplication;
     jdlApplication = createJDLApplication({ applicationType: jhAppType });
-    jdlApplication.config.setOption(new StringJDLApplicationConfigurationOption(OptionNames.BASE_NAME, jhBaseName[0]));
-    jdlApplication.config.setOption(new StringJDLApplicationConfigurationOption(OptionNames.PACKAGE_NAME, jhPackageName[0]));
-    jdlApplication.config.setOption(new StringJDLApplicationConfigurationOption(OptionNames.PACKAGE_FOLDER, jhPackageFolder[0]));
-    jdlApplication.config.setOption(new StringJDLApplicationConfigurationOption(OptionNames.SERVICE_DISCOVERY_TYPE, jhServiceDiscoveryTypes[0]));
+    jdlApplication.setConfigurationOption(new StringJDLApplicationConfigurationOption(OptionNames.BASE_NAME, jhBaseName[0]))
+    jdlApplication.setConfigurationOption(new StringJDLApplicationConfigurationOption(OptionNames.PACKAGE_NAME, jhPackageName[0]));
+    jdlApplication.setConfigurationOption(new StringJDLApplicationConfigurationOption(OptionNames.PACKAGE_FOLDER, jhPackageFolder[0]));
+    jdlApplication.setConfigurationOption(new StringJDLApplicationConfigurationOption(OptionNames.SERVICE_DISCOVERY_TYPE, jhServiceDiscoveryTypes[0]));
 
-    //choose auth type
+    // choose auth type
     const jhAuthTypes = getAuthenticationTypesFor(jhAppType);
     jhAuthTypes.forEach(jhAuthType => {
-        jdlApplication.config.setOption(new StringJDLApplicationConfigurationOption(OptionNames.AUTHENTICATION_TYPE, jhAuthType));
+        jdlApplication.setConfigurationOption(new StringJDLApplicationConfigurationOption(OptionNames.AUTHENTICATION_TYPE, jhAuthType));
 
-        //choose database type
+        // choose database type
         const jhDatabaseTypes = getDatabaseTypesFor(jdlApplication);
         jhDatabaseTypes.forEach(jhDatabaseType => {
-            jdlApplication.config.setOption(new StringJDLApplicationConfigurationOption(OptionNames.DATABASE_TYPE, jhDatabaseType));
+            jdlApplication.setConfigurationOption(new StringJDLApplicationConfigurationOption(OptionNames.DATABASE_TYPE, jhDatabaseType));
 
-            const jdlAppClone = _.cloneDeep(jdlApplication);
-            jdlApps.add(jdlAppClone);
+            // choose prod database type
+            const jhProdDatabaseTypes = getProdDatabaseTypeFor(jdlApplication);
+            jhProdDatabaseTypes.forEach(jhProdDatabaseType => {
+                jdlApplication.setConfigurationOption(new StringJDLApplicationConfigurationOption(OptionNames.PROD_DATABASE_TYPE, jhProdDatabaseType));
+                
+                
+                
+                const jdlAppClone = _.cloneDeep(jdlApplication);
+                jdlApps.add(jdlAppClone);
+            });
 
         });
     });
 });
 
 jdlApps.forEach(app => {
-    // console.log(app.config.getOption(OptionNames.APPLICATION_TYPE).value, '-',
-    //     app.config.getOption(OptionNames.AUTHENTICATION_TYPE).value, '-',
-    //     app.config.getOption(OptionNames.DATABASE_TYPE).value);
+    console.log(app.getConfigurationOptionValue(OptionNames.APPLICATION_TYPE), '-',
+        app.getConfigurationOptionValue(OptionNames.AUTHENTICATION_TYPE), '-',
+        app.getConfigurationOptionValue(OptionNames.DATABASE_TYPE),'-',
+        app.getConfigurationOptionValue(OptionNames.PROD_DATABASE_TYPE),'-',
+        app.getConfigurationOptionValue(OptionNames.DEV_DATABASE_TYPE));
 });
+console.log(jdlApps.size);
