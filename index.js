@@ -11,10 +11,10 @@ const BooleanJDLApplicationConfigurationOption = require('jhipster-core/lib/core
 const ListJDLApplicationConfigurationOption = require('jhipster-core/lib/core/list_jdl_application_configuration_option');
 
 const { getAllOptionsAsMap } = require('./lib/application_options');
-const { getAuthenticationTypesFor } = require('./lib/authentication_type_generator');
-const { getDatabaseTypesFor, getProdDatabaseTypeFor, getDevDatabaseTypeFor } = require('./lib/database_type_generator');
-const { getHibernateCacheOptionsFor } = require('./lib/hibernate_second_level_cache_generator');
-const { getClientFrameworksFor } = require('./lib/client_framework_generator');
+const { getAuthenticationTypesFor } = require('./lib/authentication_type_provider');
+const { getDatabaseTypesFor, getProdDatabaseTypeFor, getDevDatabaseTypeFor } = require('./lib/database_type_provider');
+const { getHibernateCacheOptionsFor } = require('./lib/hibernate_second_level_cache_provider');
+const { getClientFrameworksFor } = require('./lib/client_framework_provider');
 const Utils = require('./lib/utils');
 
 const jdlDirPath = 'jdl-files';
@@ -112,3 +112,5 @@ jdlApps.forEach(jdlApp => {
   JhCore.exportToJDL(jdlValidateObject, path.join(jdlDirPath, jdlPath));
 });
 
+console.log('Total ', jdlApps.size, 'jdl files have been generated.',
+  '\nPlease check under', jdlDirPath, 'directory');
