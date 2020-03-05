@@ -1,4 +1,4 @@
-# jdl-generator
+# jdl-generator (just a POC)
 Generate combinations of all sensible options 
 
 The generator is dependent on `jhipster-core` to accomplish most of the tasks.
