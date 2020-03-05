@@ -145,3 +145,9 @@ Desktop.ini
 # ESLint
 ######################
 .eslintcache
+
+######################
+# Custom
+######################
+generator-jhipster/
+jdl-files/
