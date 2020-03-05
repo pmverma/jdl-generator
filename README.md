@@ -15,4 +15,4 @@ Sample output
 Total  2748 jdl files have been generated. 
 Please check under jdl-files directory
 ```
-**Note:** Only monolith apps will been generated for now.
+**Note:** Only monolith apps will be generated for now.
